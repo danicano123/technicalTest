@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  # this makes build of my project to use it as a container 
+  # that will connect to others
+  app:
+    build: .
+    environment:
+      MONGO_URL: mongodb://db:27017/test
+    depends_on:
+      - postgres
+      - mongoDB
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
+    command: npx nodemon --legacy-watch index.js
+
+  mongoDB:
+    image: mongo
+    volumes:
+      - ./storeData/mongoData:/data/db
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: Users
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Danicano3264-
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./storeData/postgresData:/var/lib/postgresql/data
+
+  pgAdmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=test123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
