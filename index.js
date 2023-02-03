@@ -74,7 +74,7 @@ const MongoClient = require('mongodb').MongoClient
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/test';
 
 app.get('/', (req, res) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true}, (err, db) => {
     if (err) {
       res.status(500).send('💥 Boom 💥: ' + err);
     } else {

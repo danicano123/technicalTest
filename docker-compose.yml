@@ -5,10 +5,10 @@ services:
   app:
     build: .
     environment:
-      MONGO_URL: mongodb://db:27017/test
+      MONGO_URL: mongodb://mongodb:27017/test
     depends_on:
       - postgres
-      - mongoDB
+      - mongodb
     ports:
       - "3000:3000"
     volumes:
@@ -16,7 +16,7 @@ services:
       - /usr/src/node_modules
     command: npx nodemon --legacy-watch index.js
 
-  mongoDB:
+  mongodb:
     image: mongo
     volumes:
       - ./storeData/mongoData:/data/db
