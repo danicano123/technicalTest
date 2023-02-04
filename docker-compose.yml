@@ -5,7 +5,7 @@ services:
   app:
     build: .
     environment:
-      MONGO_URL: mongodb://mongodb:27017/test
+      MONGO_URL: mongodb://mongodb:27017/Users
     depends_on:
       - postgres
       - mongodb
@@ -20,6 +20,8 @@ services:
     image: mongo
     volumes:
       - ./storeData/mongoData:/data/db
+    ports:
+      - "27017:27017"
 
   postgres:
     image: postgres
