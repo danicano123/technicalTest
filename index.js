@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const server = require("http").createServer(app);
 const { socket, connect } = require("./socket");
-//require('./database');
+require('./database');
 
 connect(server);
 const { io } = socket;
@@ -36,7 +36,7 @@ app.get("/", async (req, res) => {
       res.status(500).send("💥 Boom 💥: " + err);
     } else {
       res.send("Me conecté a la DB!!! 😎");
-      db.close();
+    //  db.close();
     }
   });
 });
