@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
       if (err) {
         res.status(500).send("💥 Boom 💥: " + err);
       } else {
-        res.send({ mongoStatus: "ok" });
+        res.send({ envStatus: "ok", mongoStatus: "ok" });
       }
     });
   } catch (error) {

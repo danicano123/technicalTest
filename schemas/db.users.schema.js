@@ -2,31 +2,23 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const ProductsSchema = new Schema({
+const usersSchema = new Schema({
+  idCard: {
+    type: String,
+    trim: true,
+  },
   name: {
     type: String,
     trim: true,
   },
-  color: {
+  lastname: {
     type: String,
     trim: true,
   },
-  price: {
+  money: {
     type: Number,
-    trim: true,
-  },
-  img: {
-    type: String,
-    trim: true,
-  },
-  createdAt: {
-    type: String,
-    trim: true,
-  },
-  modifiedAt: {
-    type: String,
     trim: true,
   },
 });
 
-module.exports = mongoose.model('products', ProductsSchema);
+module.exports = mongoose.model('users', usersSchema);

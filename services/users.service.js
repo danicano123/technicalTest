@@ -1,25 +1,20 @@
-const boom = require('@hapi/boom');
-const ProductsSchema = require('../schemas/db.users.schema');
-const { io } = require('../socket').socket;
+const boom = require("@hapi/boom");
+const usersSchema = require("../schemas/db.users.schema");
+const { io } = require("../socket").socket;
 
 const date = new Date();
 const dateNow = `${date.getDate()} ${
   date.getMonth() + 1
 } ${date.getFullYear()}`;
 
-class ProductService {
-  async create(product) {
-    const img = `http://localhost:3000/public/files${product.img.filename}`;
-    console.log(`${img}hola img`);
-    // product.img = img;
-    const newProduct = {
-      ...product,
-      createdAt: dateNow,
-      modifiedAt: null,
+class UserService {
+  async create(user) {
+    const newUser = {
+      ...user,
     };
-    if (typeof newProduct === 'object') {
-      const dbProduct = new ProductsSchema(newProduct);
-      dbProduct
+    if (typeof newUser === "object") {
+      const dbUser = new usersSchema(newUser);
+      dbUser
         .save()
         .then((ok) => {
           console.log(ok);
@@ -27,15 +22,16 @@ class ProductService {
         .catch((err) => {
           console.log(err);
         });
-      return [newProduct, 201, 'successfully created'];
+      return [newUser, 201, "successfully created"];
     }
-    throw boom.badRequest(`${newProduct} Must be an Object`);
+    throw boom.badRequest(`${newUser} Must be an Object`);
   }
 
   async showAll() {
-    return ProductsSchema.find()
+    return usersSchema
+      .find()
       .then((ok) => {
-        io.emit('message', 'greetings from backend!');
+        io.emit("message", "greetings from backend!");
         return ok;
       })
       .catch((err) => {
@@ -46,20 +42,21 @@ class ProductService {
   async findOneById(id) {
     return [
       201,
-      ProductsSchema.findById(id)
+      usersSchema
+        .findById(id)
         .then((ok) => ok)
         .catch((err) => {
-          throw boom.notFound(`Product not found by id: ${id}`);
+          throw boom.notFound(`User not found by id: ${id}`);
         }),
     ];
   }
 
   async updateOneById(id, changes) {
-    if (typeof changes === 'object') {
-      const foundProduct = await ProductsSchema.findByIdAndUpdate(id, {
-        ...changes,
-        modifiedAt: dateNow,
-      })
+    if (typeof changes === "object") {
+      const foundProduct = await usersSchema
+        .findByIdAndUpdate(id, {
+          ...changes,
+        })
         .then((ok) => ok)
         .catch((err) => {
           throw boom.notFound(`Product not found by id: ${id}`);
@@ -67,11 +64,12 @@ class ProductService {
 
       return [204, foundProduct];
     }
-    throw boom.badRequest('Must be an Object');
+    throw boom.badRequest("Must be an Object");
   }
 
   async physicalDelete(id) {
-    const foundProduct = await ProductsSchema.findByIdAndDelete(id)
+    const foundProduct = await usersSchema
+      .findByIdAndDelete(id)
       .then((ok) => ok)
       .catch((err) => {
         throw boom.notFound(`Product not found by id: ${id}`);
@@ -80,4 +78,4 @@ class ProductService {
     return [204, foundProduct];
   }
 }
-module.exports = ProductService;
+module.exports = UserService;
