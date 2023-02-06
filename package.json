@@ -4,7 +4,7 @@
   "description": "Technical test by INDATUM S.A.S",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "test"

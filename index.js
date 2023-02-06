@@ -26,20 +26,6 @@ app.use(express.static("./public/views/"));
 // General middlewares
 
 app.use(express.json());
-// Mongo Connection URL
-const MongoClient = require("mongodb").MongoClient;
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/Users";
-
-app.get("/", async (req, res) => {
-   MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
-    if (err) {
-      res.status(500).send("💥 Boom 💥: " + err);
-    } else {
-      res.send("Me conecté a la DB!!! 😎");
-    //  db.close();
-    }
-  });
-});
 
 const whitelist = ["http://localhost:3000", "https://myapp.co"];
 const options = {
