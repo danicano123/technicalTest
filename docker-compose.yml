@@ -5,6 +5,7 @@ services:
   app:
     build: .
     environment:
+      EXCHANGE_API_KEY: iuV7BDfh875xTAYCoxSc0j9XdIYN2NGJ
       MONGO_URL: mongodb://mongodb:27017/Users
     depends_on:
       - postgres

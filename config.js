@@ -3,5 +3,6 @@ const config = {
   PostgresUser: process.env.POSTGRES_USER,
   postgresPassword: process.env.POSTGRES_PASSWORD,
   postgresDatabase: process.env.POSTGRES_DB,
+  exchangeApiKey: process.env.EXCHANGE_API_KEY, 
 };
 module.exports = config;
