@@ -6,7 +6,7 @@ const config = require("../config");
 const { Client } = require("pg");
 async function getConnection() {
   const client = new Client({
-    host: "localhost",
+    host: "postgres",
     port: 5432,
     user: config.PostgresUser,
     password: config.postgresPassword,

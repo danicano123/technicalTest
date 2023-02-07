@@ -1,10 +1,10 @@
 const joi = require('joi');
 
 const id = joi.string().uuid();
-const idCard = joi.string();
-const name = joi.string().min(5).max(20);
-const lastname = joi.string().max(20);
-const money = joi.number().min(10).max(10000000);
+const idCard = joi.string().max(20);
+const name = joi.string().min(5).max(50);
+const lastname = joi.string().max(50);
+const money = joi.number().min(10).max(10000000000);
 
 
 const createUserSchema = joi.object({

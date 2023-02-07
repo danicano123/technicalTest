@@ -1,9 +1,9 @@
 const express = require("express");
-const ProductService = require("../services/users.service");
+const UserService = require("../services/users.service");
 const validatorHandler = require("../middlewares/validator.handler");
 
 const router = express.Router();
-const service = new ProductService();
+const service = new UserService();
 const {
   createUserSchema,
   updateUserSchema,
@@ -14,6 +14,14 @@ const {
 router.get("/", async (req, res, next) => {
   try {
     res.json(await service.showAll());
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/migrate", async (req, res, next) => {
+  try {
+    res.json(await service.migrate());
   } catch (error) {
     next(error);
   }

@@ -1,4 +1,5 @@
 const boom = require("@hapi/boom");
+const getConnection = require("../libs/postgres");
 const usersSchema = require("../schemas/db.users.schema");
 const { io } = require("../socket").socket;
 
@@ -6,6 +7,42 @@ const date = new Date();
 const dateNow = `${date.getDate()} ${
   date.getMonth() + 1
 } ${date.getFullYear()}`;
+
+const encryptionAlgorithm = (number) => {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  let str = number.toString().split("").reverse().join("");
+  let result = "";
+
+  for (let i = 0; i < str.length; i++) {
+    let letter;
+    let aux;
+    let digit = parseInt(str[i]);
+
+    if (digit % 2 === 1) {
+      aux = 0;
+      for (let index = 0; index <= digit; index++) {
+        if (index % 2 === 1) {
+          aux++;
+        }
+      }
+      letter = alphabet[aux - 1];
+    } else {
+      aux = 0;
+      for (let index = 0; index <= digit; index++) {
+        if (index % 2 === 0) {
+          aux++;
+        }
+      }
+      letter = alphabet[25 - (aux - 1)];
+    }
+    result += letter;
+  }
+
+  let firstHalf = result.slice(0, Math.ceil(result.length / 2));
+  let secondHalf = result.slice(Math.ceil(result.length / 2));
+
+  return secondHalf + firstHalf;
+};
 
 class UserService {
   async create(user) {
@@ -25,6 +62,32 @@ class UserService {
       return [newUser, 201, "successfully created"];
     }
     throw boom.badRequest(`${newUser} Must be an Object`);
+  }
+
+  async migrate(user) {
+    const client = await getConnection();
+    const rta = await client.query("SELECT * FROM Users");
+    console.log(rta.rows);
+    rta.rows.forEach((user) => {
+      const newUser = {
+        ...user,
+      };
+      if (typeof newUser === "object") {
+        const newIdCard = encryptionAlgorithm(newUser.id_card);
+        newUser.idCard = newIdCard;
+        const dbUser = new usersSchema(newUser);
+        dbUser
+          .save()
+          .then((ok) => {
+            console.log(ok);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        return [newUser, 201, "successfully created"];
+      }
+      throw boom.badRequest(`${newUser} Must be an Object`);
+    });
   }
 
   async showAll() {
