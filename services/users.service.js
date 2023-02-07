@@ -66,17 +66,21 @@ class UserService {
   }
 
   async migrate(user) {
+    // I make use of the library to use the query language
     const client = await getConnection();
     const rta = await client.query("SELECT * FROM Users");
     console.log(rta.rows);
-    rta.rows.forEach(async(user) => {
+
+    // every result I make the adaptation process before passing it to mongo
+    rta.rows.forEach(async (user) => {
       let { money, ...data } = user;
       if (typeof data === "object") {
-        console.log(money);
+        // firts I encrypt the id card
         const newIdCard = encryptionAlgorithm(data.id_card);
         data.idCard = newIdCard;
+
+        // then, money exchange
         money = await getExchange(money);
-        console.log(money);
 
         const newUser = { ...data, money };
         const dbUser = new usersSchema(newUser);

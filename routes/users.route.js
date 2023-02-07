@@ -33,8 +33,8 @@ router.get(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const product = await service.findOneById(id);
-      res.status(product[0]).json(await product[1]);
+      const user = await service.findOneById(id);
+      res.status(user[0]).json(await user[1]);
     } catch (error) {
       next(error);
     }
