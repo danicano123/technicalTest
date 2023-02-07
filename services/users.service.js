@@ -50,7 +50,10 @@ class UserService {
     const newUser = {
       ...user,
     };
-    if (typeof newUser === "object") {
+    if (typeof newUser === "object" && isNaN(newUser.idCard) == false ) {
+      // Encrypting the idCard before to be created
+      const newIdCard = encryptionAlgorithm(newUser.idCard);
+      newUser.idCard = newIdCard;
       const dbUser = new usersSchema(newUser);
       dbUser
         .save()

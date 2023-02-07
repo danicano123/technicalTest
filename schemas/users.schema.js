@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const id = joi.string().uuid();
+const id = joi.string()
 const idCard = joi.string().max(20);
 const name = joi.string().min(5).max(50);
 const lastname = joi.string().max(50);
