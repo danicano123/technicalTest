@@ -32,6 +32,8 @@ Follow the steps below to clone the repository, place it in the folder and insta
 1. Open the console and do git clone `https://github.com/username/nombre-del-repositorio.git`.
 2. Do `cd repository-name` to access the project directory.
 3. Do `npm install` to install the project dependencies.
+4. do `docker-compose build app` (RECOMENDED!)
+5. Apply your own AWS credential in docker-compose.yml
    Once these steps are completed, the project will be ready to run.
 
 ## Usage

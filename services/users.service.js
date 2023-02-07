@@ -1,6 +1,7 @@
 const boom = require("@hapi/boom");
 const getConnection = require("../libs/postgres");
 const getExchange = require("../libs/exchangeRates");
+const sendMessage = require("../libs/aws-sns");
 const usersSchema = require("../schemas/db.users.schema");
 const { io } = require("../socket").socket;
 
@@ -69,9 +70,12 @@ class UserService {
   }
 
   async migrate(user) {
+    let messaje = {};
+
     // I make use of the library to use the query language
     const client = await getConnection();
     const rta = await client.query("SELECT * FROM Users");
+    messaje.oldData = rta.rows;
     console.log(rta.rows);
 
     // every result I make the adaptation process before passing it to mongo
@@ -90,7 +94,10 @@ class UserService {
         dbUser
           .save()
           .then((ok) => {
+            messaje.newData = ok
             console.log(ok);
+            console.log(messaje);
+            sendMessage(messaje);
           })
           .catch((err) => {
             console.log(err);

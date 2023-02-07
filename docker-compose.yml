@@ -5,6 +5,10 @@ services:
   app:
     build: .
     environment:
+      ACCESS_KEY_ID_AWS: ACCESS_KEY_ID_AWS
+      SECRET_ACCESS_KEY_ID_AWS: ACCESS_KEY_ID_AWS
+      REGION_AWS: REGION_AWS
+      TOPIC_ARN_AWS: TOPIC_ARN_AWS
       EXCHANGE_API_KEY: "iuV7BDfh875xTAYCoxSc0j9XdIYN2NGJ"
       MONGO_URL: mongodb://mongodb:27017/Users
       POSTGRES_DB: Users
