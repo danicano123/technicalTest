@@ -7,12 +7,15 @@ var requestOptions = {
   redirect: "follow",
   headers: myHeaders,
 };
-const getExchange = (amount) => {
+const getExchange = async (amount) => {
   const url = `https://api.apilayer.com/exchangerates_data/convert?to=USD&from=COP&amount=${amount}`;
-  fetch(url, requestOptions)
-    .then((response) => response.json())
-    .then((result) => result.result)
-    .catch((error) => console.log("error", error));
+  try {
+    const response = await fetch(url, requestOptions);
+    const result = await response.json();
+    return result.result;
+  } catch (error) {
+    console.log("error", error);
+  }
 };
 
 module.exports = getExchange;
